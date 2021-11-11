@@ -30,8 +30,12 @@ class Word {
     }
 }
 
+/**
+ * This method renders in HTML the number of vowels in the word entered in the input
+ * @public
+ */
 
-function responseVowels(){
+function responseVowels(): void{
     let inputWord : HTMLInputElement = document.getElementById('stringInput') as HTMLInputElement;
     let vowels : HTMLElement = document.getElementById('vowels') as HTMLElement;
     let word = new Word(inputWord.value);   
