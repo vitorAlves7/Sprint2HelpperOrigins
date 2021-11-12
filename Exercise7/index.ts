@@ -1,5 +1,8 @@
+
+
 /**
- * This class instantiates an object with a list of relevant numbers from an array.
+ * This class instantiates an object that takes a list and filters
+ *  the list of relevant numbers from an array in an imperative way.
  */
 
 class ArrayRelevantDataImperative{
@@ -27,7 +30,7 @@ class ArrayRelevantDataImperative{
         if(this.validatesIfItIsNumericalList(numberList)){
             let bigger: number  = numberList[0];
             let smaller: number = numberList[0];
-            let sum : number = 0;
+            let sum : number = numberList[0];
     
             for(let i = 1; i < numberList.length; i++){
                 if(numberList[i] > bigger){ 
@@ -39,7 +42,8 @@ class ArrayRelevantDataImperative{
                 sum += numberList[i];
     
             }
-            return [bigger,smaller,sum];
+            let avarege: number = sum/numberList.length
+            return [bigger,smaller,avarege];
         }
         return [];
     }
@@ -62,7 +66,89 @@ class ArrayRelevantDataImperative{
 
 }
 
-let listNumbers: any [] = [5,'dell',4,true];
-let numberI = new ArrayRelevantDataImperative(listNumbers);
 
-console.log(numberI.getRelvantNumber());
+class ArrayRelevantDataFunctional{
+
+    private relevantNumbers: number [];
+
+    constructor(listItems: any[]){
+       this.relevantNumbers = this.filterOutRelevantNumbers(listItems)
+    }
+
+    public getRelvantNumber(): number []{
+        return this.relevantNumbers;
+    }
+
+    private setRelevantNumber(listItems: any[]){
+        this.relevantNumbers = listItems;
+    }
+    /**
+     * This method filters out the relevant numbers from the array, such as biggest, smallest and mean of numbers.
+     * @param listItems @typeParam any []
+     * @returns if a list is of type number return list with the highest value at position 0,
+     *  the lowest at 1, and the average at position 3. Else returns a empty list
+     */
+    public filterOutRelevantNumbers(numberList: number [],): number []{
+        if(this.validatesIfItIsNumericalListFunctional(numberList)){
+            let bigger: number  = this.returnTheBiggestNumberInArrayFunctional(numberList);
+            let smaller: number = this.returnTheSmallerNumberInArrayFunctional(numberList);
+            let sum : number = this.returnTheAverageOfTheNumbersInArrayFunctional(numberList);
+    
+            return [bigger,smaller,sum];
+        }
+        return [];
+    }
+
+   /**
+    * This method returns the highest value in the list
+    * @param numberList @typeParam number []
+    * @returns the highest number in the list
+    */
+    public returnTheBiggestNumberInArrayFunctional(numberList: number []): number{
+        return Math.max.apply(Math,numberList);
+    }
+
+
+   /**
+    * This method returns the smaller value in the list
+    * @param numberList @typeParam number []
+    * @returns the smaller number in the list
+    */
+    public returnTheSmallerNumberInArrayFunctional(numberList: number []): number{
+        return Math.min.apply(Math,numberList);
+    }
+
+   /**
+    * This method returns the average of all values in the list.
+    * @param numberList @typeParam number
+    * @returns the  the average of the numbers in the list
+    */
+    public returnTheAverageOfTheNumbersInArrayFunctional(numberList: number []): number{
+        return (numberList.reduce((previousValue, currentValue) => previousValue + currentValue))/numberList.length;
+    }
+
+
+    /**
+     * This method validates whether the list is numeric or not.
+     * @param listItems @typeParam any []
+     * @returns if a list is of type number or not
+     */
+
+    public validatesIfItIsNumericalListFunctional(listItems: any[]) : boolean {
+        let result : boolean = true;
+        listItems.forEach((item) => { if(typeof(item) !== 'number')  result = false })
+        return result;
+    }  
+
+}
+
+
+
+let numbersList: any [] = [5,2,3,5,8];
+const anyList : any [] = [5,'dell',4,true];
+let numberRevelevantsExempleImperative = new ArrayRelevantDataImperative(numbersList);
+let numberRevelevantsExempleFunctional = new ArrayRelevantDataFunctional(numbersList);
+
+console.log(numberRevelevantsExempleImperative.getRelvantNumber());
+console.log(numberRevelevantsExempleFunctional.getRelvantNumber());
+
