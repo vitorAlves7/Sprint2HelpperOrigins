@@ -5,13 +5,12 @@
  */
 class Word {
 
-    private allVowels: string[] = ['a','e','i','o','u','A','E','I','O','U'];
-    private valueWord: string;
+    private allVowels: string[] = ['a','e','i','o','u','à','á','é','í','ó','ú','â','ê','ô','ã','õ'];
+    private valueWord: string[];
     
     constructor(valueWord: string){
-        this.valueWord = valueWord; 
+        this.valueWord = valueWord.toLowerCase().split(""); 
     }
-
     /**
      * This method returns the number of vowels in a string.
      * @public
