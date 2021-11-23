@@ -4,6 +4,10 @@ class Person {
         this.id = id;
         this.name = name;
         this.bio = bio;
+        this.adaCreator = false;
+    }
+    setAdaCreator(valueAda) {
+        this.adaCreator = valueAda;
     }
 }
 let lista = [
@@ -15,53 +19,51 @@ let lista = [
 class AdaLovelace extends Person {
     constructor() {
         super(1, 'Ada Lovelace', 'Ada Lovelace, foi uma matemática e escritora inglesa reconhecida por ter escrito o primeiro algoritmo para ser processado por uma máquina');
-        this.adaCreator = true;
+        this.setAdaCreator(true);
     }
 }
 class AlanTuring extends Person {
     constructor() {
         super(2, 'Alan Turing', 'Alan Turing foi um matemático, cientista da computação, lógico, criptoanalista, filósofo e biólogo teórico britânico, ele é amplamente considerado o pai da ciência da computação teórica e da inteligência artificial');
-        this.adaCreator = false;
     }
 }
 class NikolaTesla extends Person {
     constructor() {
         super(3, 'Nikola Tesla', 'Nikola Tesla foi um inventor, engenheiro eletrotécnico e engenheiro mecânico sérvio, mais conhecido por suas contribuições ao projeto do moderno sistema de fornecimento de eletricidade em corrente alternada');
-        this.adaCreator = false;
     }
 }
 class NicolauCopernico extends Person {
     constructor() {
         super(4, 'Nicolau Copérnico', 'Nicolau Copérnico foi um astrônomo e matemático polonês que desenvolveu a teoria heliocêntrica do Sistema Solar');
-        this.adaCreator = false;
     }
 }
 class PersonFactory {
-}
-class AdaLovelaceFactory extends PersonFactory {
-    createPerson() {
-        return new AdaLovelace();
+    /**
+     * This method creates a person matching the passed id or returns null if the id doesn't match any person
+     * @param idPessoa
+     * @typeParam number
+     * @returns The person corresponding to the passed id
+     */
+    createPerson(idPessoa) {
+        if (idPessoa === 1) {
+            return new AdaLovelace();
+        }
+        else if (idPessoa === 2) {
+            return new AlanTuring();
+        }
+        else if (idPessoa === 3) {
+            return new NikolaTesla();
+        }
+        else if (idPessoa === 4) {
+            return new NicolauCopernico();
+        }
+        return null;
     }
 }
-class AlanTuringFactory extends PersonFactory {
-    createPerson() {
-        return new AlanTuring();
-    }
-}
-class NikolaTeslaFactory extends PersonFactory {
-    createPerson() {
-        return new NikolaTesla();
-    }
-}
-class NicolauCopernicoFactory extends PersonFactory {
-    createPerson() {
-        return new NicolauCopernico();
-    }
-}
-let adaLovelaceFactory = new AdaLovelaceFactory();
-let ada = adaLovelaceFactory.createPerson();
-let copernicoFactory = new NicolauCopernicoFactory();
-let copernico = copernicoFactory.createPerson();
+let adaLovelaceFactory = new PersonFactory();
+let ada = adaLovelaceFactory.createPerson(1);
+let copernicoFactory = new PersonFactory();
+let copernico = copernicoFactory.createPerson(4);
 function creatorOfTheAdaLanguage(person) {
     if (person.adaCreator === true) {
         console.log(` A pessoa ${person.name} é criador da linguagem Ada`);

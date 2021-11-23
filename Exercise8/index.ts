@@ -8,17 +8,23 @@ class Person implements IPerson{
     id: number;
     name: string;
     bio: string;
+    private adaCreator: boolean;
     
     constructor(id:number,name:string,bio:string){
         this.id = id;
         this.name = name;
         this.bio = bio;
+        this.adaCreator = false;
+    }
+
+    public setAdaCreator(valueAda: boolean){
+        this.adaCreator = valueAda;
     }
     
 }
 
 
-let lista: Array<Person> = [
+let lista: Array<IPerson> = [
      {"id" : 1, "name": "Ada Lovelace", "bio" : "Ada Lovelace, foi uma matemática e escritora inglesa reconhecida por ter escrito o primeiro algoritmo para ser processado por uma máquina"},
      {"id" : 2, "name": "Alan Turing", "bio" : "Alan Turing foi um matemático, cientista da computação, lógico, criptoanalista, filósofo e biólogo teórico britânico, ele é amplamente considerado o pai da ciência da computação teórica e da inteligência artificia"},
      {"id" : 3, "name": "Nikola Tesla", "bio" : "Nikola Tesla foi um inventor, engenheiro eletrotécnico e engenheiro mecânico sérvio, mais conhecido por suas contribuições ao projeto do moderno sistema de fornecimento de eletricidade em corrente alternada."},
@@ -26,72 +32,61 @@ let lista: Array<Person> = [
 ];
 
 class AdaLovelace extends Person {
-    private adaCreator: boolean;
     constructor(){
         super(1,'Ada Lovelace', 'Ada Lovelace, foi uma matemática e escritora inglesa reconhecida por ter escrito o primeiro algoritmo para ser processado por uma máquina');
-        this.adaCreator = true;
+        this.setAdaCreator(true);
     }
 
 }
 
 class AlanTuring extends Person {
-    private adaCreator: boolean;
     constructor() {
         super(2, 'Alan Turing', 'Alan Turing foi um matemático, cientista da computação, lógico, criptoanalista, filósofo e biólogo teórico britânico, ele é amplamente considerado o pai da ciência da computação teórica e da inteligência artificial');
-        this.adaCreator = false;
+
     }
 }
 
 class NikolaTesla extends Person {
-    private adaCreator: boolean;
     constructor() {
         super(3, 'Nikola Tesla', 'Nikola Tesla foi um inventor, engenheiro eletrotécnico e engenheiro mecânico sérvio, mais conhecido por suas contribuições ao projeto do moderno sistema de fornecimento de eletricidade em corrente alternada');
-        this.adaCreator = false;
     }
 }
 
 class NicolauCopernico extends Person {
-    private adaCreator: boolean;
     constructor() {
         super(4, 'Nicolau Copérnico', 'Nicolau Copérnico foi um astrônomo e matemático polonês que desenvolveu a teoria heliocêntrica do Sistema Solar');
-        this.adaCreator = false;
     }
 }
 
-abstract class PersonFactory {
-    public abstract createPerson(): Person;
-
-}
-
-class AdaLovelaceFactory extends PersonFactory{
-    public createPerson(): Person{
-        return new AdaLovelace();
+class PersonFactory {
+    /**
+     * This method creates a person matching the passed id or returns null if the id doesn't match any person
+     * @param idPessoa
+     * @typeParam number
+     * @returns The person corresponding to the passed id 
+     */
+    public createPerson(idPessoa: number): Person | any{
+        
+        if(idPessoa === 1){
+            return new AdaLovelace();
+        } else if(idPessoa === 2){
+            return new AlanTuring();
+        } else if(idPessoa === 3){
+            return new NikolaTesla();
+        } else if(idPessoa === 4){
+            return new NicolauCopernico();
+        }
+        return null;
     }
+
 }
 
-class AlanTuringFactory extends PersonFactory{
-    public createPerson(): Person{
-        return new AlanTuring();
-    }
-}
 
-class NikolaTeslaFactory extends PersonFactory{
-    public createPerson(): Person{
-        return new NikolaTesla();
-    }
-}
+let adaLovelaceFactory: PersonFactory = new PersonFactory();
+let ada: Person = adaLovelaceFactory.createPerson(1);
 
-class NicolauCopernicoFactory extends PersonFactory{
-    public createPerson(): Person{
-        return new NicolauCopernico();
-    }
-}
-
-let adaLovelaceFactory: PersonFactory = new AdaLovelaceFactory();
-let ada: Person = adaLovelaceFactory.createPerson();
-
-let copernicoFactory: PersonFactory = new NicolauCopernicoFactory();
-let copernico: Person = copernicoFactory.createPerson();
+let copernicoFactory: PersonFactory = new PersonFactory();
+let copernico: Person = copernicoFactory.createPerson(4);
 
 function creatorOfTheAdaLanguage(person: Person){
     if(person.adaCreator === true){
@@ -102,4 +97,4 @@ function creatorOfTheAdaLanguage(person: Person){
 }
 
 creatorOfTheAdaLanguage(copernico);
-creatorOfTheAdaLanguage(ada);
+creatorOfTheAdaLanguage(ada); 
